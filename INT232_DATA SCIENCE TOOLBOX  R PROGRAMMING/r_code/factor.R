@@ -61,6 +61,23 @@ fac5
 #[1] 1 2 7 3 4 5 6
 #Levels: 1 2 3 4 5 6 7
 
+#
+fac=factor(c("low","low", "medium", "low", "low", "medium", "high","medium", "high","high", "medium", "high"))
+fac
 
 
+fac=factor(c("low","low", "medium", "low", "low", "medium", "high","medium", "high","high", "medium", "high"))
+fac
 
+
+labels(fac)
+#[1] "1"  "2"  "3"  "4"  "5"  "6"  "7"  "8"  "9"  "10" "11" "12"
+length(fac)
+
+fac[4]="medium"
+#adding the new hello level to the fac level
+levels(fac)=factor(c(levels(fac),"hello"))
+
+fac
+
+fac
