@@ -117,3 +117,41 @@ x1[[5]][5]   #NA means no value at that position
 x1$e   #[1]  54  55 500  57  58  59  60
 x1$e=x1$e[-c(4,5)]
 x1$e   #[1]  54  55 500  59  60
+
+
+#names function  is t=used to get the attribjues of the list 
+names(x1)  #[1] "a"        "b column" "c"        "d"        "e" 
+names(x2)   #NUll because there is no name indexing the the x2 
+
+#reassigning the name or attributes  of the x1 list 
+names(x1)=c("a1","b1","c1","d1","e1")
+names(x1)  #[1] "a1" "b1" "c1" "d1" "e1"
+
+
+
+#merging the two listes 
+list1=list("s no"=1:3,"cost"=c("100/kg","500/kg","1000/kg"),fruits=c("apples","mango","grapes"))
+list2=list(20:23)
+
+
+list3=c(lsit1,list2)  #easy way of merging 
+list3
+
+
+
+
+
+#creating the nested list 
+list3=list(list1,list2) #not the correct way of merging   and complex 
+list3
+
+
+
+#by using the unlist we can convert the list to vector
+#because vector iss light storage  and easy work 
+v1=unlink(list1)
+v1
+
+#after creating the vector we can delete the list because there is no use of the main list1 
+rm(list1)
+typeof(v1)
