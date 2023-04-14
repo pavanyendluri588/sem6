@@ -1,0 +1,64 @@
+---
+title: "sales dashboard"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+library(ggplot2)
+library(dplyr)
+```
+
+Column {data-width=650}
+-----------------------------------------------------------------------
+
+### Chart A
+
+```{r}
+ggplot(data = iris ,aes(x=Species,y=Sepal.Length,fill=Species))+
+        geom_boxplot(fill="red")
+ggplot(data=iris,aes(x=Sepal.Length))+
+     labs(x="sepal",y="Frequency of the sepal Length")+
+     geom_histogram(bins = 10,fill="red",col="black")
+
+ggplot(data=iris,aes(x=Sepal.Length))+
+     labs(x="sepal",y="Frequency of the sepal Length")+
+     geom_histogram(bins = 5,fill="red",col="black")
+
+
+ggplot(data=iris,aes(x=Sepal.Length))+
+     labs(x="sepal",y="Frequency of the sepal Length")+
+     geom_histogram(bins = 30,fill="red",col="black")
+
+```
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### Chart B
+
+```{r}
+
+
+
+```
+
+### Chart C
+
+```{r}
+
+ggplot(data=iris,aescies,y=Petal.Length,fill=Species))+
+        geom_bar(stat = 'identity',col="red")
+ggplot(data=iris,aes(x=Sepal.Length,y=Petal.Length,col=Species))+
+     labs(x="sepal",y="Frequency of the sepal Length")+
+     geom_point()
+
+ggplot(data=iris,aes(x=Sepal.Length))+
+     labs(x="sepal",y="Frequency of the sepal Length")+
+     geom_histogram()
+
+```
+
