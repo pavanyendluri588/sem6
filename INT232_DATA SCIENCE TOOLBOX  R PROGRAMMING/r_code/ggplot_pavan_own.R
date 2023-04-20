@@ -93,6 +93,51 @@ ggplot(data12,aes(x=Sepal.Length,y=Sepal.Width,col=Species,shape=Species))+geom_
 ggplot(data12,aes(x=Sepal.Length,y=Sepal.Width,col=Species,shape=Species))+geom_point(col="blue")+geom_smooth(col="red",se=F)
 #
 #
+#to get the glimse of the dataset we use glimse() function  for this we need to load tidyverse package
+library(tidyverse)
+glimpse(data12)
 
+#bar graph
+(data13=mtcars )
+summary(data13)
+colnames(data13)
+ggplot(data13,aes(x=gear))+geom_bar()
+ggplot(data13,aes(y=gear))+geom_bar() #this graph is flipped to y axis 
+#flipping the graph 
+ggplot(data13,aes(x=gear))+geom_bar()+coord_flip() #same like y=gear
+
+
+#we can use the stastical transformations with the ggplot
+#for that we use the stat_summery()
+
+ggplot(data13,aes(hp,mpg))+geom_point(col="blue")
+ggplot(data13,aes(hp,mpg))+geom_point(col="blue")+geom_line()
+#adding the line = dashed and the geom=line
+ggplot(data13,aes(hp,mpg))+geom_point(col="blue")+stat_summary(geom="line",linetype="dashed")
+ggplot(data13,aes(hp,mpg))+geom_point(col="blue")+stat_summary(fun.y="median",geom="line",linetype="dashed")
+ggplot(data13,aes(hp,mpg))+geom_point(col="blue")+geom_rug()+ stat_summary(fun.y="median",geom="line",linetype="dashed")
 #
-#
+#histogram
+#difference between the histogram and the bar chat 
+#in barchat we use the discreate data 
+#in histogram we use the continuous data
+ggplot(data12,aes(x=Sepal.Length,col=Species))+geom_histogram()
+
+ggplot(data12,aes(x=Sepal.Length,col=Species,fill=Species))+geom_histogram()
+
+ggplot(data13,aes(x=mpg))+geom_histogram()
+
+ggplot(data13,aes(x=mpg))+geom_histogram(bins=10)
+
+ggplot(data13,aes(x=mpg))+geom_histogram()+stat_bin(binwidth=10)
+
+data13
+as.factor(data13$cyl)
+
+ggplot(data13,aes(x=cyl,y=mpg))+geom_boxplot()
+#in the box plot we use the x value as the factor 
+ggplot(data13,aes(x=as.factor(cyl),y=mpg,col=cyl,fill=cyl))+geom_boxplot()
+
+#to defile the different color values 
+ggplot(data13,aes(x=as.factor(cyl),y=mpg,color=cyl))+geom_boxplot()
+scale_color_manual(values =c("#3a0ca3", "#c9184a", "#3a5a40"))

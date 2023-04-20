@@ -1,0 +1,113 @@
+---
+title: "HR ANALYSIS DASHBOARD"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+library(ggplot2)
+library(xlsx)
+library(plotrix)
+```
+
+Column {data-width=650}
+-----------------------------------------------------------------------
+
+### Chart A
+
+```{r}
+#reading the data
+path= "D:\\datasets\\hr_data\\HR Data.csv"
+data=read_csv(path)
+data= sqldf("select * from data")
+data$Attrition_count<- with(data,ifelse(data$Attrition=="Yes",1,0))
+
+View(data)
+colnames(data)
+
+#graph 1 Department wise Attrition 
+data1=sqldf("select sum(Attrition_count) Attrition_count from data group by Department ")
+data1 = as.data.frame(data1)
+data1
+unique_department=unique(data$Department)
+pie(data1$Attrition_count,labels = data1$Attrition_count ,main="Department wise Attrition",col=rainbow(length(data1$Attrition_count)))
+     legend("topright",unique_department,fill=rainbow(length(data1$Attrition_count)))
+
+     
+#graph2 Education Wise Attrition
+library(plotrix)
+data2 =sqldf("select sum(Attrition_count) Attrition_count , Education from data group by Education order by Education")
+data2 = as.data.frame(data2)
+pie3D(data2$Attrition_count,labels = data2$Attrition_count,explode = 0.07,main="Education Wise Attrition")
+legend("topright",data2$Education ,fill=rainbow(length(data2$Attrition_count)))
+
+#
+#graph3 Education Field based Attrition
+data3 =sqldf("select sum(Attrition_count) Attrition_count, `Education Field` Education_Field from data group by `Education Field` order by `Education Field` ")
+data3 = as.data.frame(data3)
+barplot(data3$Attrition_count,main="Education Field based Attrition",xlab = "Education Field",ylab="Attrition",col=rainbow(length(data3$Attrition_count)))
+legend("topright",data3$Education_Field,fill=rainbow(length(data3$Attrition_count)))
+
+#graph 4 Gender based Attrition
+data4 =sqldf("select sum(Attrition_count) Attrition_count,Gender from data group by Gender order by Gender ")
+data4 = as.data.frame(data4)
+barplot(data4$Attrition_count,main="Gender based Attrition",xlab = "Gender",ylab="Attrition",names.arg = c("Female","Male"),col=rainbow(length(data4$Attrition_count)))
+legend("topleft",data4$Gender,fill=rainbow(length(data4$Attrition_count)))
+
+```
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### Chart B
+
+```{r}
+
+#graph 5 employee count based on gender 
+data5 =sqldf("select sum(`Employee Count`) Employee_Count,Gender from data group by Gender order by Gender ")
+data5 = as.data.frame(data5)
+barplot(data5$Employee_Count,main="Employee count based on Gender",xlab = "Gender",ylab="Total Employes",names.arg = c("Female","Male"),col=rainbow(length(data5$Employee_Count)))
+legend("topleft",data5$Gender,fill=rainbow(length(data5$Employee_Count)))
+
+#graph 6 monthly income based on the job roles 
+data6 =sqldf("select round(sum(`Monthly Income`) /  sum(`Employee Count`),0) Monthly_Income,`Job Role`  Job_Role  from data group by `Job Role` order by `Job Role` ")
+data6 = as.data.frame(data6)
+data6
+barplot(data6$Monthly_Income,main="Employee count based on Gender",xlab = "Gender",ylab="Total Employes", names.arg = data6$Job_Role,col=rainbow(length(data6$Monthly_Income)))
+legend("topright",data6$Job_Role,cex=0.7 ,fill=rainbow(length(data6$Monthly_Income)))
+
+
+#graph 7 department wise employee count 
+data7 =sqldf("select sum(`Employee Count`) Employee_Count,Department  from data group by Department  order by Department ")
+data7 = as.data.frame(data7)
+data7
+pie3D(data7$Employee_Count,main="Department wise Employee Count",explode=0.07,labels =data7$Employee_Count ,col=rainbow(length(data7$Employee_Count)))
+legend("topright",data7$Department ,cex=1.6,fill=rainbow(length(data7$Employee_Count)))
+
+
+```
+
+### Chart C
+
+```{r}
+
+#graph 8 education baed monthly income 
+data8 =sqldf("select round(sum(`Monthly Income`) /  sum(`Employee Count`),0) Monthly_Income,Education  from data group by Education  order by Education ")
+data8 = as.data.frame(data8)
+data8
+pie3D(data8$Monthly_Income,main="Education Baed Monthly Income",explode=0.07,labels =data8$Monthly_Income ,col=rainbow(length(data8$Monthly_Income)))
+legend("topright",data8$Education ,cex=0.8,fill=rainbow(length(data8$Monthly_Income)))
+
+#graph 9 department wise salary hiKe
+
+data9 =sqldf("select sum(`Percent Salary Hike`)  Percent_Salary_Hike,Department  from data group by Department  order by Department ")
+data9 = as.data.frame(data9)
+data9
+pie(data9$Percent_Salary_Hike,main="Department Wise Salary HiKe",explode=0.07,labels =data9$Percent_Salary_Hike ,col=data9$Percent_Salary_Hike)
+legend("topright",data9$Department ,cex=0.8,fill =data9$Percent_Salary_Hike)
+
+```
+
