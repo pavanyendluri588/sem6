@@ -1,5 +1,7 @@
 library(ggplot2)
 library(sqldf)
+library(readr)
+library(plotrix)
 #reading the data
 path= "D:\\datasets\\hr_data\\HR Data.csv"
 data=read_csv(path)
@@ -8,6 +10,7 @@ data$Attrition_count<- with(data,ifelse(data$Attrition=="Yes",1,0))
 
 View(data)
 colnames(data)
+head(data)
 
 #graph 1 Department wise Attrition 
 data1=sqldf("select sum(Attrition_count) Attrition_count from data group by Department ")
@@ -48,7 +51,8 @@ legend("topleft",data5$Gender,fill=rainbow(length(data5$Employee_Count)))
 data6 =sqldf("select round(sum(`Monthly Income`) /  sum(`Employee Count`),0) Monthly_Income,`Job Role`  Job_Role  from data group by `Job Role` order by `Job Role` ")
 data6 = as.data.frame(data6)
 data6
-barplot(data6$Monthly_Income,main="Employee count based on Gender",xlab = "Gender",ylab="Total Employes", names.arg = data6$Job_Role,col=rainbow(length(data6$Monthly_Income)))
+par(bg = "Tomato")
+barplot(data6$Monthly_Income,main="Monthly income based on the job roles",xlab = "Gender",ylab="Total Employes", names.arg = data6$Job_Role,col=rainbow(length(data6$Monthly_Income)))
 legend("topright",data6$Job_Role,cex=0.7 ,fill=rainbow(length(data6$Monthly_Income)))
 
 

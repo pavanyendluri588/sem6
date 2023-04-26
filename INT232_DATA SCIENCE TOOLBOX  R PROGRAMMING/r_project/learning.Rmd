@@ -1,0 +1,59 @@
+---
+title: "Untitled"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+library(ggplot2)
+library(xlsx)
+library(plotrix)
+library(readr)
+library(sqldf)
+```
+
+Column {data-width=650}
+-----------------------------------------------------------------------
+
+### Chart A
+
+```{r}
+#reading the data
+path= "D:\\datasets\\hr_data\\HR Data.csv"
+data=read_csv(path,show_col_types = FALSE)
+data= sqldf("select * from data")
+data$Attrition_count<- with(data,ifelse(data$Attrition=="Yes",1,0))
+
+#View(data)
+#colnames(data)
+
+#graph 1 Department wise Attrition 
+data1=sqldf("select sum(Attrition_count) Attrition_count from data group by Department ")
+data1 = as.data.frame(data1)
+unique_department=unique(data$Department)
+par(bg = "lightblue")
+pie(data1$Attrition_count,labels = data1$Attrition_count ,main="Department wise Attrition",col=rainbow(length(data1$Attrition_count)), bg = "light grey")
+     legend("topright",unique_department,fill=rainbow(length(data1$Attrition_count)))
+     
+
+
+```
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### Chart B
+
+```{r}
+
+```
+
+### Chart C
+
+```{r}
+
+```
+
