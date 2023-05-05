@@ -1,0 +1,36 @@
+stratis pool list
+
+stratis pool create <pool_name> <diskname>
+stratis pool add-data <pool_name> <diskname>
+stratis pool destroy <pool_name>
+stratis pool add-cache <pool_name>
+stratis blockdev list
+
+stratis filesystem create <pool_name> <file_system_name>
+stratis filesystem destroy <pool_name> <file_system_name>
+stratis filesystem list
+
+
+stratis filesystem snapshot <pool_name> <file_system_name> <shapshot_name>
+
+#mount the filesystem 
+mount /dev/stratis/<pool_name>/<folesystem_name> /mp1
+dd if=/dev/urandom of=/mp1/file_name  bs=1M count=2048
+
+mkdir /mp1
+nano /etc/fstab
+lsblk -f /dev/sdb1
+UUID=        /mp1 xfs default,x-systemd.requires=stratisd.service 0 0
+
+
+yum install kmod-kvdo vdo
+
+vdo create --name=<vdo_name>  --device=<device_name> --vdoLogicalSize=50G
+vdo start --name=<vdo_name>
+vdo start --all
+vdo stop --name=<vdo_name>
+vdo stop -all
+vdo remove --name=<vdo_name>
+vdo status
+vdo status --name=<vdo_name>
+	
